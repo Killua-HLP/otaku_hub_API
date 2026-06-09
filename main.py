@@ -3,7 +3,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 from auth import verify_password, create_access_token
 from schemas import Token, LoginRequest
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
 from database import init_db
 import crud
 from routes.user_routes import router as user_router
@@ -41,17 +40,17 @@ def login(request: LoginRequest):
 
 # @app.post("/login", response_model=Token)
 # def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    users = crud.get_all_users()
-    user = next(
-        (u for u in users if u["username"] == form_data.username), None)
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid username!")
-
-    if not verify_password(form_data.password, user["password"]):
-        raise HTTPException(status_code=401, detail="Invalid password!")
-
-    token = create_access_token({"user_id": user["id"]})
-    return {"access_token": token, "token_type": "bearer"}
+#    users = crud.get_all_users()
+#     user = next(
+#         (u for u in users if u["username"] == form_data.username), None)
+#     if not user:
+#         raise HTTPException(status_code=401, detail="Invalid username!")
+#
+#    if not verify_password(form_data.password, user["password"]):
+#         raise HTTPException(status_code=401, detail="Invalid password!")
+#
+#     token = create_access_token({"user_id": user["id"]})
+#     return {"access_token": token, "token_type": "bearer"}
 
 
 @app.get("/")
