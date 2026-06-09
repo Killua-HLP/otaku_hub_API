@@ -43,3 +43,13 @@ def delete_user(user_id: int):
 @router.get("/me", response_model=UserResponse)
 def get_me(current_user_id: int = Depends(get_current_user)):
     return crud.get_user_by_id(current_user_id)
+
+
+@router.put("/me")
+def update_me(user: UserUpdate, current_user_id: int = Depends(get_current_user)):
+    return crud.update_user(current_user_id, **user.model_dump(exclude_unset=True))
+
+
+@router.delete("/me")
+def delete_me(current_user_id: int = Depends(get_current_user)):
+    return crud.delete_user(current_user_id)

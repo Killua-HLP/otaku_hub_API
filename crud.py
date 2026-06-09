@@ -1,4 +1,3 @@
-import bcrypt
 from database import get_session
 from models import User, AnimeList, MangaList, Vtuber, Game
 from fastapi import HTTPException
@@ -156,9 +155,17 @@ def get_anime_by_id(anime_id: int, user_id: int):
             AnimeList.user_id == user_id).first()
         if not anime:
             raise HTTPException(status_code=404, detail="Anime not found!")
-        return {"id": anime.id,
-                "title": anime.title,
-                "rating": anime.rating}
+        return {
+            "id": anime.id,
+            "user_id": anime.user_id,
+            "title": anime.title,
+            "genre": anime.genre,
+            "is_favourite": anime.is_favourite,
+            "episode_watched": anime.episode_watched,
+            "status": anime.status,
+            "rating": anime.rating,
+            "review": anime.review
+        }
 
 
 def update_anime(anime_id, **kwargs):
@@ -229,7 +236,7 @@ def get_all_manga(user_id: int):
                 "id": m.id,
                 "user_id": m.user_id,
                 "title": m.title,
-                "chapters": m.chapter_read,
+                "chapter_read": m.chapter_read,
                 "status": m.status,
                 "rating": m.rating
             } for m in manga
@@ -245,9 +252,14 @@ def get_manga_by_id(manga_id: int, user_id: int):
             raise HTTPException(status_code=404, detail="Manga not found!")
         return {
             "id": manga.id,
+            "user_id": manga.user_id,
             "title": manga.title,
             "genre": manga.genre,
-            "rating": manga.rating
+            "is_favourite": manga.is_favourite,
+            "chapter_read": manga.chapter_read,
+            "status": manga.status,
+            "rating": manga.rating,
+            "review": manga.review
         }
 
 
@@ -318,27 +330,40 @@ def add_vtuber(user_id, name, gender, agency, rank, debut_date, graduation_date,
 def get_all_vtubers(user_id: int):
     with get_session() as session:
         vtubers = session.query(Vtuber).filter(
-            Vtuber.user_id == user_id).all()
+            Vtuber.user_id == user_id
+        ).all()
         return [{"id": v.id,
-                 "title": v.name,
+                 "user_id": v.user_id,
+                 "name": v.name,
+                 "gender": v.gender,
                  "agency": v.agency,
-                 "rank": v.rank}
-                for v in vtubers
-                ]
+                 "rank": v.rank,
+                 "is_favourite": v.is_favourite,
+                 "primary_language": v.primary_language}
+                for v in vtubers]
 
 
 def get_vtuber_by_id(vtuber_id: int, user_id: int):
     with get_session() as session:
         vtuber = session.query(Vtuber).filter(
             Vtuber.id == vtuber_id,
-            Vtuber.user_id == user_id).first()
+            Vtuber.user_id == user_id
+        ).first()
         if not vtuber:
             raise HTTPException(status_code=404, detail="Vtuber not found!")
         return {
             "id": vtuber.id,
+            "user_id": vtuber.user_id,
             "name": vtuber.name,
             "gender": vtuber.gender,
-            "agency": vtuber.agency
+            "agency": vtuber.agency,
+            "rank": vtuber.rank,
+            "debut_date": vtuber.debut_date,
+            "graduation_date": vtuber.graduation_date,
+            "is_favourite": vtuber.is_favourite,
+            "primary_language": vtuber.primary_language,
+            "youtube_id": vtuber.youtube_id,
+            "twitter": vtuber.twitter
         }
 
 
@@ -403,14 +428,15 @@ def add_game(user_id, title, genre, rank, hour_played, started_date, finished_da
 def get_all_games(user_id: int):
     with get_session() as session:
         games = session.query(Game).filter(
-            Game.user_id == user_id).all()
-        return [{
-                "id": g.id,
-                "title": g.title,
-                "hour_play": float(str(g.hour_played)),
-                "rating": g.rating
-                }for g in games
-                ]
+            Game.user_id == user_id
+        ).all()
+        return [{"id": g.id,
+                 "user_id": g.user_id,
+                 "title": g.title,
+                 "genre": g.genre,
+                 "hour_played": float(str(g.hour_played)) if g.hour_played else None,
+                 "rating": g.rating}
+                for g in games]
 
 
 def get_game_by_id(game_id: int, user_id: int):
@@ -422,9 +448,15 @@ def get_game_by_id(game_id: int, user_id: int):
             raise HTTPException(status_code=404, detail="Game not found!")
         return {
             "id": game.id,
+            "user_id": game.user_id,
             "title": game.title,
             "genre": game.genre,
-            "rating": game.rating
+            "rank": game.rank,
+            "hour_played": float(str(game.hour_played)) if game.hour_played else None,
+            "started_date": game.started_date,
+            "finished_date": game.finished_date,
+            "rating": game.rating,
+            "notes": game.notes
         }
 
 

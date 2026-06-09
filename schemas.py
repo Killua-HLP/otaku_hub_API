@@ -161,9 +161,6 @@ class VtuberResponse(BaseModel):
     youtube_id: Optional[str] = None
     twitter: Optional[str] = None
 
-    class Config:
-        from_attributes = True
-
 
 class GameUpdate(BaseModel):
     title: Optional[str] = None
@@ -187,6 +184,7 @@ class GameCreate(BaseModel):
     started_date: Optional[date] = None
     finished_date: Optional[date] = None
     rating: float
+
     notes: Optional[str] = None
 
     class Config:
