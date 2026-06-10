@@ -236,9 +236,12 @@ def get_all_manga(user_id: int):
                 "id": m.id,
                 "user_id": m.user_id,
                 "title": m.title,
+                "genre": m.genre,
+                "is_favourite": m.is_favourite,
                 "chapter_read": m.chapter_read,
                 "status": m.status,
-                "rating": m.rating
+                "rating": m.rating,
+                "review": m.review
             } for m in manga
         ]
 
@@ -338,8 +341,13 @@ def get_all_vtubers(user_id: int):
                  "gender": v.gender,
                  "agency": v.agency,
                  "rank": v.rank,
+                 "debut_date": v.debut_date,
+                 "graduation_date": v.graduation_date,
                  "is_favourite": v.is_favourite,
-                 "primary_language": v.primary_language}
+                 "primary_language": v.primary_language,
+                 "youtube_id": v.youtube_id,
+                 "twitter": v.twitter
+                 }
                 for v in vtubers]
 
 
@@ -434,8 +442,12 @@ def get_all_games(user_id: int):
                  "user_id": g.user_id,
                  "title": g.title,
                  "genre": g.genre,
+                 "rank": g.rank,
                  "hour_played": float(str(g.hour_played)) if g.hour_played else None,
-                 "rating": g.rating}
+                 "started_date": g.started_date,
+                 "finished_date": g.finished_date,
+                 "rating": g.rating,
+                 "notes": g.notes}
                 for g in games]
 
 

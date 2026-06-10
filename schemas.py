@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import date
+from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 class UserUpdate(BaseModel):
@@ -10,8 +11,7 @@ class UserUpdate(BaseModel):
     country: Optional[str] = None
     favourite_genre: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserCreate(BaseModel):
@@ -29,8 +29,7 @@ class UserResponse(BaseModel):
     favourite_genre: Optional[str] = None
     is_active: bool
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class AnimeUpdate(BaseModel):
@@ -42,8 +41,7 @@ class AnimeUpdate(BaseModel):
     rating: Optional[float] = None
     review: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class AnimeCreate(BaseModel):
@@ -55,8 +53,7 @@ class AnimeCreate(BaseModel):
     rating: float
     review: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class AnimeResponse(BaseModel):
@@ -70,8 +67,7 @@ class AnimeResponse(BaseModel):
     rating: Optional[float] = None
     review: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MangaUpdate(BaseModel):
@@ -83,8 +79,7 @@ class MangaUpdate(BaseModel):
     rating: Optional[float] = None
     review: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MangaCreate(BaseModel):
@@ -96,8 +91,7 @@ class MangaCreate(BaseModel):
     rating: Optional[float] = None
     review: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MangaResponse(BaseModel):
@@ -111,8 +105,7 @@ class MangaResponse(BaseModel):
     rating: Optional[float] = None
     review: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class VtuberUpdate(BaseModel):
@@ -127,8 +120,7 @@ class VtuberUpdate(BaseModel):
     youtube_id: Optional[str] = None
     twitter: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class VtuberCreate(BaseModel):
@@ -143,8 +135,7 @@ class VtuberCreate(BaseModel):
     youtube_id: Optional[str] = None
     twitter: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class VtuberResponse(BaseModel):
@@ -172,8 +163,7 @@ class GameUpdate(BaseModel):
     rating: Optional[float] = None
     notes: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class GameCreate(BaseModel):
@@ -187,8 +177,7 @@ class GameCreate(BaseModel):
 
     notes: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class GameResponse(BaseModel):
@@ -203,8 +192,7 @@ class GameResponse(BaseModel):
     rating: float
     notes: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Token(BaseModel):
