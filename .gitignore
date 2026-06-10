@@ -2,4 +2,4 @@
 .venv
 __pycache__
 *.pyc
-Test_sqlalchemy.py
+docker-compose.yml
