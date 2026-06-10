@@ -7,7 +7,7 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 load_dotenv()
 DB_URL = os.getenv(
-    "DB_URL", "postgresql://username:password@localhost:port/otaku_hub")
+    "DB_URL", "fpostgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 
 if not os.getenv("DB_URL"):
     print("Environment variable 'DB_URL' not found in .env, using default fallback.")
