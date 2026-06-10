@@ -1,5 +1,5 @@
 from auth import get_current_user
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from schemas import UserCreate, UserResponse, UserUpdate
 import crud
 import sys
