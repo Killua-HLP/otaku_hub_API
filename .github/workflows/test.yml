@@ -18,7 +18,7 @@ jobs:
           POSTGRES_PASSWORD: cck_test_pass_123
           POSTGRES_DB: ckkk_test_db_name
         ports:
-          - 5432:5432
+          - 9746:5432
         options: >-
           --health-cmd "pg_isready -U ck_test_user -d ckkk_test_db_name"
           --health-interval 10s
@@ -38,18 +38,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Create .env and Run tests
+      - name: Run tests
         env:
-          TEST_SECRET: ${{ secrets.MY_THIRD_PARTY_TEST_KEY }}
+          DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
+          SECRET_KEY: ${{ secrets.MY_THIRD_PARTY_TEST_KEY }}
         run: |
-          cat << 'EOF' > .env
-          SECRET_KEY=my_fallback_test_secret_key_12345
-          DB_URL=postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
-          DATABASE_URL=postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
-          EOF
-
-          if [ ! -z "$TEST_SECRET" ]; then
-            sed -i "s/SECRET_KEY=.*/SECRET_KEY=$TEST_SECRET/g" .env
-          fi
+          echo "SECRET_KEY=${{ secrets.MY_THIRD_PARTY_TEST_KEY }}" > .env
+          echo "DB_URL=postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name" >> .env
           
           pytest tests/ -v
