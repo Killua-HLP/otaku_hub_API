@@ -14,13 +14,13 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: ${{ secrets.DB_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ck_test_user
+          POSTGRES_PASSWORD: cck_test_pass_123
+          POSTGRES_DB: ckkk_test_db_name
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U ck_test_user -d ckkk_test_db_name"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -40,8 +40,7 @@ jobs:
 
       - name: Run tests
         env:
-          DB_URL: ${{ secrets.DB_URL }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
+          SECRET_KEY: ${{ secrets.MY_THIRD_PARTY_TEST_KEY }}
         run: |
-          cd otaku_hub
           pytest tests/ -v
