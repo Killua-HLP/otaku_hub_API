@@ -14,13 +14,13 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: ck_test_user
-          POSTGRES_PASSWORD: cck_test_pass_123
-          POSTGRES_DB: ckkk_test_db_name
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U ck_test_user -d ckkk_test_db_name"
+          --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -40,7 +40,13 @@ jobs:
 
       - name: Run tests
         env:
-          DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
+          DB_URL: ${{ secrets.DB_URL }}
           SECRET_KEY: ${{ secrets.MY_THIRD_PARTY_TEST_KEY }}
         run: |
+          cd otaku_hub
+          
+          # FIX: This generates the physical .env file your auth.py is crashing without!
+          echo "SECRET_KEY=${{ secrets.MY_THIRD_PARTY_TEST_KEY }}" > .env
+          echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+          
           pytest tests/ -v
