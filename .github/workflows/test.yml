@@ -20,7 +20,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -43,9 +43,11 @@ jobs:
           DB_URL: ${{ secrets.DB_URL }}
           SECRET_KEY: ${{ secrets.MY_THIRD_PARTY_TEST_KEY }}
         run: |
+          echo "SECRET_KEY=${{ secrets.MY_THIRD_PARTY_TEST_KEY }}" > .env
+          echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+          
           cd otaku_hub
           
-          # FIX: This generates the physical .env file your auth.py is crashing without!
           echo "SECRET_KEY=${{ secrets.MY_THIRD_PARTY_TEST_KEY }}" > .env
           echo "DB_URL=${{ secrets.DB_URL }}" >> .env
           
