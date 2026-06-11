@@ -46,4 +46,7 @@ jobs:
           echo "SECRET_KEY=${{ secrets.MY_THIRD_PARTY_TEST_KEY }}" > .env
           echo "DB_URL=postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name" >> .env
           
+          echo "SECRET_KEY=${{ secrets.MY_THIRD_PARTY_TEST_KEY }}" > .env
+          echo "DB_URL=postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name" >> .env
+          
           pytest tests/ -v
