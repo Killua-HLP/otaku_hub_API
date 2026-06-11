@@ -46,8 +46,7 @@ jobs:
           cat << EOF > .env
           SECRET_KEY=${{ secrets.MY_THIRD_PARTY_TEST_KEY }}
           DB_URL=postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
+          DATABASE_URL=postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
           EOF
-          
-          ls -la
           
           pytest tests/ -v
