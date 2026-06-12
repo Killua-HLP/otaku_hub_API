@@ -2,21 +2,19 @@ from main import app
 from fastapi.testclient import TestClient
 import sys
 import os
-import pytest
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 client = TestClient(app)
 
 
-def test_root(client):
+def test_root():
     response = client.get("/")
     assert response.status_code == 200
     assert "Otaku Hub" in response.json()["message"]
 
 
-def test_register_user(client):
+def test_register_user():
     import random
     rand = random.randint(1000, 9999)
     response = client.post("/users", json={
@@ -27,7 +25,7 @@ def test_register_user(client):
     assert response.status_code == 200
 
 
-def test_register_duplicate_user(client):
+def test_register_duplicate_user():
     client.post("/users", json={
         "username": "dupuser",
         "email": "dup@gmail.com",
