@@ -9,12 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      PYTHONPATH: ${{ github.workspace }}
-    
-    services:
-      postgres:
-        image: postgres:15
 
     services:
       postgres:
