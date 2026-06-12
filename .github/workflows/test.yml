@@ -56,4 +56,4 @@ jobs:
           DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
-          python -c "from app.database import Base, engine; Base.metadata.create_all(engine)"
+          pytest tests/ -v
