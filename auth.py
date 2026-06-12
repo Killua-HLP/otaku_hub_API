@@ -11,7 +11,7 @@ load_dotenv()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-if not SECRET_KEY:
+if not SECRET_KEY and not os.getenv("PYTEST_CURRENT_TEST"):
     raise RuntimeError("SECRET_KEY is not set in .env!")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
