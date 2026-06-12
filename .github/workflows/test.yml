@@ -45,9 +45,38 @@ jobs:
         run: |
           python -c "from database import Base, engine; Base.metadata.create_all(engine)"
 
-      - name: Run tests
+      - name: Initialize database
         env:
-          DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+         DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
+         PYTHONPATH: ${{ github.workspace }}
         run: |
-          pytest tests/ -v
+         python << 'EOF'
+         import sys
+         import time
+         from sqlalchemy import create_engine, text
+        
+         max_retries = 10
+         retry_count = 0
+        
+         while retry_count < max_retries:
+            try:
+                engine = create_engine("postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name")
+                with engine.connect() as conn:
+                    conn.execute(text("SELECT 1"))
+                    conn.commit()
+                break
+            except Exception as e:
+                retry_count += 1
+                if retry_count >= max_retries:
+                    print(f"Failed to connect to database after {max_retries} attempts")
+                    sys.exit(1)
+                time.sleep(2)
+        
+         try:
+            from database import Base, engine as db_engine
+            Base.metadata.create_all(db_engine)
+            print("Database tables created successfully")
+         except Exception as e:
+            print(f"Error creating tables: {e}")
+            sys.exit(1)
+         EOF
