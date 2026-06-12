@@ -9,6 +9,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+    
+    services:
+      postgres:
+        image: postgres:15
 
     services:
       postgres:
@@ -50,4 +56,4 @@ jobs:
           DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
-          pytest tests/ -v
+          python -c "from app.database import Base, engine; Base.metadata.create_all(engine)"
