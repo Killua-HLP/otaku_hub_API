@@ -38,6 +38,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Initialize database
+        env:
+          DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
+        run: |
+          python -c "from app.database import Base, engine; Base.metadata.create_all(engine)"
+
       - name: Run tests
         env:
           DB_URL: postgresql://ck_test_user:cck_test_pass_123@localhost:5432/ckkk_test_db_name
