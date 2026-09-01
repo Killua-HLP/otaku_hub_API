@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from auth import verify_password, create_access_token
-from schemas import Token, LoginRequest
+from schemas import Token
 from contextlib import asynccontextmanager
 from database import init_db
 import crud
@@ -24,6 +24,7 @@ app.include_router(anime_router)
 app.include_router(manga_router)
 app.include_router(vtuber_router)
 app.include_router(game_router)
+
 
 
 @app.post("/login", response_model=Token)

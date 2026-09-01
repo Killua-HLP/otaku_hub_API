@@ -8,7 +8,7 @@ from auth import get_current_user
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-router = APIRouter()
+router = APIRouter(prefix="", tags=["Vtuber"])
 
 
 @router.get("/vtuber", response_model=list[VtuberResponse])

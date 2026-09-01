@@ -8,7 +8,8 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-router = APIRouter()
+
+router = APIRouter(prefix="", tags=["Anime"])
 
 
 @router.get("/anime_list", response_model=list[AnimeResponse])
